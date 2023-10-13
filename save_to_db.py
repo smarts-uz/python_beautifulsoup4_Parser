@@ -28,6 +28,7 @@ def save_mysql_channel(list):
         print(mycursor.rowcount, "record inserted.")
 
 
+
 def save_mysql_group(list):
     mydb = mysql.connector.connect(
         host="localhost",

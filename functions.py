@@ -10,6 +10,7 @@ def get_html(file_path):
     return soup
 
 
+
 # Здесь сохраняются данные в формате json для дальнейшей обработки
 def save_json(list):
     dict_learning_id = list[0]
