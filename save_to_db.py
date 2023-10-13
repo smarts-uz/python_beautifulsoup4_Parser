@@ -2,7 +2,11 @@ import mysql.connector
 
 
 # Это функция сохранения данных из Learning Channel в базу-данных
+
 # Attention !!! Использовать эту функцию после тщательной верификации данных
+
+# Attention !!! Использовать эту функцию для
+
 def save_mysql_channel(list):
     mydb = mysql.connector.connect(
         host="192.168.1.236",
@@ -17,6 +21,9 @@ def save_mysql_channel(list):
             from_name = k[2]
         except:
             from_name = 'SmartTech Learning'
+
+        from_name = k[2]
+
         text = i
         title = k[1]
         msg_id = k[0]
@@ -25,6 +32,7 @@ def save_mysql_channel(list):
         val = (from_name, text, title, msg_id)
         mycursor.execute(sql, val)
         mydb.commit()
+
         print(mycursor.rowcount, "record inserted.")
 
 
@@ -66,4 +74,5 @@ def save_mysql_group(list):
 #     mycursor.execute("""CREATE TABLE learning_group(id int NOT NULL AUTO_INCREMENT, from_name VARCHAR(255), text VARCHAR(255), content TEXT, data_title VARCHAR(255),
 #     message_details VARCHAR(255), message_id INT, replied_message_details VARCHAR(255), reply_id INT, joined BOOLEAN, PRIMARY KEY (id))""")
 # creating_mysql_group()
+#print(mycursor.rowcount, "record inserted.")
 
