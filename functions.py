@@ -68,8 +68,11 @@ def get_text(list1, reply_id):
 def get_from_name_joined(list2):
     dict_learning_content = list2[1]
     dict_reply_id_name = {}
-    for x, y in dict_learning_content.items():
-        dict_reply_id_name[int(x)] = y[1]
+    try:
+        for x, y in dict_learning_content.items():
+            dict_reply_id_name[int(x)] = y[1]
+    except:
+        pass
     return dict_reply_id_name
 
 
@@ -83,10 +86,7 @@ def get_from_name(list_info, dict_reply):
                     i[0] = y
                 else:
                     pass
-    print(result)
     return result
-
-
 
 
 

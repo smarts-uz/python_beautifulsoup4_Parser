@@ -62,8 +62,6 @@ def get_info(html):
                         dict_all_content[msg_id].append(text_content)
                 dict_all_content[msg_id].append(reply_id)
                 dict_all_content[msg_id].append(from_name)
-
-
             else:
                 reply_id_details = body.find('div', class_='reply_to details')
                 replied_message_details = reply_id_details.find('a').get('href')
@@ -98,8 +96,6 @@ def get_info(html):
                         dict_all_content[msg_id].append(text_content)
                 dict_all_content[msg_id].append(reply_id)
                 dict_all_content[msg_id].append(from_name)
-
-
         except:
             pass
     for i in messages_2:
@@ -126,7 +122,11 @@ def get_info(html):
                 if body.find('div', class_='media_wrap clearfix'):
                     box = body.find('div', class_='media_wrap clearfix')
                     file_link = box.find('a').get('href')
-                    dict_learning_content[reply_id].append(file_link)
+                    print(file_link)
+                    try:
+                        dict_learning_content[reply_id].append(file_link)
+                    except:
+                        dict_learning_content[reply_id] = [file_link]
                     dict_all_content[msg_id].append(file_link)
                 else:
                     try:
@@ -139,6 +139,7 @@ def get_info(html):
                         dict_learning_content[reply_id].append(text_content)
                         dict_all_content[msg_id].append(text_content)
             except:
+                print('iuu++++++++++')
                 pass
             dict_all_content[msg_id].append(reply_id)
         else:
@@ -155,7 +156,16 @@ def get_info(html):
     return results
 
 
-# def get_video_info(html):
+def get_video_info(html):
+    page_body = html.find('div', class_='history')
+    messages_1 = page_body.find_all('div', class_='message default clearfix')
+    messages_2 = page_body.find_all('div', class_='message default clearfix joined')
+    for i in messages_1:
+        message_details = i.get('id')  # message_details
+        msg_id = ''.join(i.get('id').split('message'))  # message_id
+        body = i.find('div', class_='body')
+        if body.find('div', class_='media_wrap clearfix'):
+            box = body.find('div', class_='media_wrap clearfix')
 
 
 
@@ -167,5 +177,6 @@ prepare_info = prepare_group_info(result)  # Здесь происходит п�
 dict_reply = get_from_name_joined(result)  # Здесь мы получаем словарь с replied_id и from_name
 ready_information = get_from_name(prepare_info, dict_reply)  # Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
 #save_mysql_group(ready_information)
+get_video_info(main_html)
 
 #save_mysql_channel(result) # Эта функция для сохранения в базу-данных информации для Learning channel
