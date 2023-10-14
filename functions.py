@@ -18,6 +18,8 @@ def save_json(list):
     dict_learning_id_2 = list[3]
     with open('dict_learning_id.json', 'w', encoding='UTF-8') as file:
         json.dump(dict_learning_id, file, indent=4)
+    with open('dict_learning_id_all.json', 'a', encoding='UTF-8') as f:
+        json.dump(dict_learning_id, f, indent=4)
     with open('dict_learning_content.json', 'w', encoding='UTF-8') as file1:
         json.dump(dict_learning_content, file1, indent=4)
     with open('dict_all_content.json', 'w', encoding='UTF-8') as file2:
@@ -98,7 +100,7 @@ def prepare_video_info(dict_v, list_r):
         description = y[1]
         video_path = y[2]
         video_duration = y[3]
-        data_title = [4]
+        data_title = y[4]
         message_details = y[5]
         replied_message_details = y[6]
         replied_id = y[0]
@@ -107,7 +109,9 @@ def prepare_video_info(dict_v, list_r):
             from_name = y[7]
         except:
             from_name = None
-
+        result.append([text_from_learning, video_path, description, video_duration, data_title,
+                      message_details, msg_id, replied_message_details, replied_id, from_name])
+    return result
 
 
 
