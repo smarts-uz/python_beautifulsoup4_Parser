@@ -92,6 +92,23 @@ def get_from_name(list_info, dict_reply):
 
 def prepare_video_info(dict_v, list_r):
     dict_learning_id = list_r[0]
+    result = []
+    for x, y in dict_v.items():
+        msg_id = x
+        description = y[1]
+        video_path = y[2]
+        video_duration = y[3]
+        data_title = [4]
+        message_details = y[5]
+        replied_message_details = y[6]
+        replied_id = y[0]
+        text_from_learning = get_text(dict_learning_id, replied_id)
+        try:
+            from_name = y[7]
+        except:
+            from_name = None
+
+
 
 
 
