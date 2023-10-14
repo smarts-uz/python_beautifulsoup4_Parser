@@ -68,11 +68,12 @@ def get_text(list1, reply_id):
 def get_from_name_joined(list2):
     dict_learning_content = list2[1]
     dict_reply_id_name = {}
-    try:
-        for x, y in dict_learning_content.items():
+    for x, y in dict_learning_content.items():
+        try:
             dict_reply_id_name[int(x)] = y[1]
-    except:
-        pass
+        except:
+            from_name = None
+            dict_reply_id_name[int(x)] = from_name
     return dict_reply_id_name
 
 
@@ -87,6 +88,10 @@ def get_from_name(list_info, dict_reply):
                 else:
                     pass
     return result
+
+
+def prepare_video_info(dict_v, list_r):
+    dict_learning_id = list_r[0]
 
 
 

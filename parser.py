@@ -122,7 +122,6 @@ def get_info(html):
                 if body.find('div', class_='media_wrap clearfix'):
                     box = body.find('div', class_='media_wrap clearfix')
                     file_link = box.find('a').get('href')
-                    print(file_link)
                     try:
                         dict_learning_content[reply_id].append(file_link)
                     except:
@@ -139,7 +138,6 @@ def get_info(html):
                         dict_learning_content[reply_id].append(text_content)
                         dict_all_content[msg_id].append(text_content)
             except:
-                print('iuu++++++++++')
                 pass
             dict_all_content[msg_id].append(reply_id)
         else:
@@ -157,6 +155,7 @@ def get_info(html):
 
 
 def get_video_info(html):
+    dict_video_info = {}
     page_body = html.find('div', class_='history')
     messages_1 = page_body.find_all('div', class_='message default clearfix')
     messages_2 = page_body.find_all('div', class_='message default clearfix joined')
@@ -164,8 +163,47 @@ def get_video_info(html):
         message_details = i.get('id')  # message_details
         msg_id = ''.join(i.get('id').split('message'))  # message_id
         body = i.find('div', class_='body')
-        if body.find('div', class_='media_wrap clearfix'):
-            box = body.find('div', class_='media_wrap clearfix')
+        if body.find('div', class_='reply_to details'):
+            if body.find('div', class_='media_wrap clearfix'):
+                box = body.find('div', class_='media_wrap clearfix')
+                data_title = body.find('div', class_='pull_right date details').get('title')
+                from_name = ' '.join(body.find('div', class_='from_name').get_text().split())
+                reply_id_details = body.find('div', class_='reply_to details')
+                replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
+                reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))
+                if box.find('a', class_='video_file_wrap clearfix pull_left'):
+                    video_box = box.find('a', class_='video_file_wrap clearfix pull_left')
+                    video_path = video_box.get('href')
+                    video_duration = ' '.join(video_box.find('div', class_='video_duration').get_text().split())
+                    try:
+                        description = ' '.join(body.find('div', class_='text').get_text().split())
+                    except:
+                        description = None
+                    dict_video_info[int(msg_id)] = [int(reply_id), description, video_path, video_duration, data_title, message_details, replied_message_details, from_name]
+                else:
+                    pass
+    for k in messages_2:
+        message_details = k.get('id')  # message_details
+        msg_id = ''.join(k.get('id').split('message'))  # message_id
+        body = k.find('div', class_='body')
+        if body.find('div', class_='reply_to details'):
+            if body.find('div', class_='media_wrap clearfix'):
+                box = body.find('div', class_='media_wrap clearfix')
+                data_title = body.find('div', class_='pull_right date details').get('title')
+                reply_id_details = body.find('div', class_='reply_to details')
+                replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
+                reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))
+                if box.find('a', class_='video_file_wrap clearfix pull_left'):
+                    video_box = box.find('a', class_='video_file_wrap clearfix pull_left')
+                    video_path = video_box.get('href')
+                    video_duration = ' '.join(video_box.find('div', class_='video_duration').get_text().split())
+                    try:
+                        description = ' '.join(body.find('div', class_='text').get_text().split())
+                    except:
+                        description = None
+                    dict_video_info[int(msg_id)] = [int(reply_id), description, video_path, video_duration, data_title, message_details, replied_message_details]
+    print(dict_video_info)
+    return dict_video_info
 
 
 
@@ -176,6 +214,7 @@ save_json(result)  # На данном этапе мы сохраняем пол
 prepare_info = prepare_group_info(result)  # Здесь происходит первичная обработка данных
 dict_reply = get_from_name_joined(result)  # Здесь мы получаем словарь с replied_id и from_name
 ready_information = get_from_name(prepare_info, dict_reply)  # Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
+
 #save_mysql_group(ready_information)
 get_video_info(main_html)
 
