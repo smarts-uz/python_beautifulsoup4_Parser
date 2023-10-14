@@ -1,4 +1,4 @@
-from functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, prepare_video_info
+from functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, prepare_video_info, save_test
 from save_to_db import save_mysql_channel, save_mysql_group
 
 
@@ -38,6 +38,12 @@ def get_info(html):
                 reply_id_details = body.find('div', class_='reply_to details')
                 replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
                 reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))  # replied_message_id
+                try:
+                    if int(reply_id):
+                        pass
+                except:
+                    reply_id_list = reply_id_details.find('a').get('href').split('#go_to_message')
+                    reply_id = reply_id_list[1]
                 dict_all_content[msg_id] = [replied_message_details]
                 dict_all_content[msg_id].append(title)
                 dict_all_content[msg_id].append(message_details)
@@ -218,18 +224,20 @@ def get_video_info(html):
 
 
 
-fname = f"D:\python\parser_2\parser\mhtlm_files\messages6.html"
-main_html = get_html(fname)  # Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
-result = get_info(main_html)  # Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
-save_json(result)  # На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
-prepare_info = prepare_group_info(result)  # Здесь происходит первичная обработка данных
-dict_reply = get_from_name_joined(result)  # Здесь мы получаем словарь с replied_id и from_name
-ready_information = get_from_name(prepare_info, dict_reply)  # Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
-video_dict = get_video_info(main_html)
-result_2 = prepare_video_info(video_dict, result)
-for i in result_2:
-    print(i)
+all = []
+for k in range(86, 102):
+    fname = fr"C:\Users\Administrator\Documents\GitHub\python_beautifulsoup4_Parser\all_mhtml_files\messages{k}.html"
+    main_html = get_html(fname)  # Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
+    result = get_info(main_html)  # Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
+    all.append(result[0])
+    save_json(result)  # На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
+    prepare_info = prepare_group_info(result)  # Здесь происходит первичная обработка данных
+    dict_reply = get_from_name_joined(result)  # Здесь мы получаем словарь с replied_id и from_name
+    ready_information = get_from_name(prepare_info, dict_reply)  # Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
+    video_dict = get_video_info(main_html)
+    result_2 = prepare_video_info(video_dict, result)
+save_test(all)
+
+
 #save_mysql_group(ready_information)
-
-
 #save_mysql_channel(result) # Эта функция для сохранения в базу-данных информации для Learning channel
