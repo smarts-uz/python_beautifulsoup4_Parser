@@ -218,7 +218,7 @@ def get_video_info(html):
 
 
 
-fname = f"D:\python\parser_2\parser\mhtlm_files\messages9.html"
+fname = f"D:\python\parser_2\parser\mhtlm_files\messages6.html"
 main_html = get_html(fname)  # Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
 result = get_info(main_html)  # Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
 save_json(result)  # На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных

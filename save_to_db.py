@@ -5,7 +5,7 @@ import mysql.connector
 # Attention !!! Использовать эту функцию после тщательной верификации данных
 def save_mysql_channel(list):
     mydb = mysql.connector.connect(
-        host="192.168.1.236",
+        host="192.168.100.100",
         user="timurparser",
         password="timurparser",
         database="timurparser")

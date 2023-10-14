@@ -18,8 +18,8 @@ def save_json(list):
     dict_learning_id_2 = list[3]
     with open('dict_learning_id.json', 'w', encoding='UTF-8') as file:
         json.dump(dict_learning_id, file, indent=4)
-    with open('dict_learning_id_all.json', 'a', encoding='UTF-8') as f:
-        json.dump(dict_learning_id, f, indent=4)
+    # with open('dict_learning_id_all.json', 'a', encoding='UTF-8') as f:
+    #     json.dump(dict_learning_id, f, indent=4)
     with open('dict_learning_content.json', 'w', encoding='UTF-8') as file1:
         json.dump(dict_learning_content, file1, indent=4)
     with open('dict_all_content.json', 'w', encoding='UTF-8') as file2:
@@ -27,6 +27,12 @@ def save_json(list):
     with open('dict_learning_id_2.json', 'w', encoding='UTF-8') as file3:
         json.dump(dict_learning_id_2, file3, indent=4)
     return 'Done✅'
+
+
+def read_json():
+    with open('dict_learning_id_all.json', 'r', encoding='UTF-8') as file:
+        dict_r = json.loads(file.read())
+        return dict_r
 
 
 # Здесь происходит первичная обработка и корректировка данных из Learning Group
@@ -94,6 +100,7 @@ def get_from_name(list_info, dict_reply):
 
 def prepare_video_info(dict_v, list_r):
     dict_learning_id = list_r[0]
+    dict_learning_id_all = read_json()
     result = []
     for x, y in dict_v.items():
         msg_id = x
