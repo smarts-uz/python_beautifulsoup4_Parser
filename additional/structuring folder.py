@@ -22,3 +22,13 @@ def name_reducer(viriable):
         viriable = viriable.replace(viriable[-x:], '')
     else:
         pass
+
+def crop_title(): #приминяеться для удаления расширения медия
+    a = "Don't put dots after folder name. Collect design related files only via Total Commander !!!.mp4"
+    if '.mp4' in a:
+        a = a.split(' ') # changing from str to lists (diving)
+        del a[-1] #deleting .mp4
+        print(a)
+        
+def removing_hashtags(): # убираются хэштеги
+    pass
