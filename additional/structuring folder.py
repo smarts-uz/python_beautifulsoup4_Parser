@@ -1,8 +1,6 @@
 import os
 import shutil
 import mysql.connector
-import json
-from os import listdir
 from additional.functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_video_duration
 
 
@@ -17,7 +15,7 @@ def read_mysql():
     myresult = mycursor.fetchall()
     # for i in myresult:
     #     print(i)
-    return myresult[0:100]
+    return myresult[1:100]
 
 
 def create_dirs(list_of_data):
@@ -43,6 +41,6 @@ def create_dirs(list_of_data):
 
 
 data = read_mysql()
-#create_dirs(data)
+# create_dirs(data)
 
 

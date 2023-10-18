@@ -49,9 +49,3 @@ def correct_video_duration(video_duration):
 
 # file_path_list = listdir(r'\\192.168.100.100\SmartTech Learning Group\2021 ')
 # print(file_path_list)
-
-a = '22-42'
-b = 'These methods allow you to write either a single line at a time or write multiple lines to an opened file. While Python allows you to open a file using the open()'
-path = fr'D:\108\Test\\'
-with open(fr'{path}{a}.txt', 'w', encoding='UTF-8') as file:
-    file.write(b)
