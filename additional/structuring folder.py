@@ -18,6 +18,7 @@ def read_mysql():
     #     print(i)
     return myresult
 
+
 def correct_post_title(post_title):
     first_step = post_title.split(' | ')
     second_step = first_step[-1].split('#')
@@ -52,6 +53,7 @@ def correct_file_location(video_path, data_title):
         if os.path.isfile(video_link):
             return video_link
 
+
 def create_dirs(list_of_data):
     actual_path = 'D:\\108\\Test\\'  # There should be path of directory where you want to save all videos
     for item in list_of_data:
@@ -68,20 +70,9 @@ def create_dirs(list_of_data):
         file_location = correct_file_location(video_path, data_title)
         shutil.copy2(file_location, actual_path + video_title)
 
+
 data = read_mysql()
 create_dirs(data)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #  correct_file_location(r'video_files\«Account» folder of Services.mp4', '2023')

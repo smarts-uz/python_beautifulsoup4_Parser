@@ -16,28 +16,26 @@ def save_json(list):
     dict_learning_content = list[1]
     dict_all_content = list[2]
     dict_learning_id_2 = list[3]
-    with open('dict_learning_id.json', 'w', encoding='UTF-8') as file:
+    with open('json_files/dict_learning_id.json', 'w', encoding='UTF-8') as file:
         json.dump(dict_learning_id, file, indent=4)
-    # with open('dict_learning_id_all.json', 'w', encoding='UTF-8') as f:
-    #     json.dump(all, f, indent=4)
-    with open('dict_learning_content.json', 'w', encoding='UTF-8') as file1:
+    with open('json_files/dict_learning_content.json', 'w', encoding='UTF-8') as file1:
         json.dump(dict_learning_content, file1, indent=4)
-    with open('dict_all_content.json', 'w', encoding='UTF-8') as file2:
+    with open('json_files/dict_all_content.json', 'w', encoding='UTF-8') as file2:
         json.dump(dict_all_content, file2, indent=4)
-    with open('dict_learning_id_2.json', 'w', encoding='UTF-8') as file3:
+    with open('json_files/dict_learning_id_2.json', 'w', encoding='UTF-8') as file3:
         json.dump(dict_learning_id_2, file3, indent=4)
     return 'Done✅'
 
 
-def save_test(all):
-    with open('dict_learning_id_all.json', 'a', encoding='UTF-8') as f:
-        json.dump(all, f, indent=4)
+# def save_test(all):
+#     with open('dict_learning_id_all.json', 'a', encoding='UTF-8') as f:
+#         json.dump(all, f, indent=4)
 
 
-# def read_json():
-#     with open('dict_learning_id_all.json', 'r', encoding='UTF-8') as file:
-#         dict_r = json.loads(file.read())
-#         return dict_r
+def read_json():
+    with open('json_files/dict_learning_id_all.json', 'r', encoding='UTF-8') as file:
+        dict_r = json.loads(file.read())
+        return dict_r
 
 
 # Здесь происходит первичная обработка и корректировка данных из Learning Group
@@ -68,8 +66,13 @@ def prepare_group_info(list):
 # Здесь также происходит обработка данных, а точнее получения заголовка к replied message
 def get_text(list1, reply_id):
     id_dict = {}
-    for x, y in list1.items():
-        id_dict[y[0]] = x
+    if type(list1) == list:
+        for prepared_dict in list1:
+            for x, y in prepared_dict.items():
+                id_dict[y[0]] = x
+    else:
+        for x, y in list1.items():
+            id_dict[y[0]] = x
     try:
         text = id_dict[reply_id]
     except:
@@ -105,7 +108,7 @@ def get_from_name(list_info, dict_reply):
 
 def prepare_video_info(dict_v, list_r):
     dict_learning_id = list_r[0]
-    #dict_learning_id_all = read_json()
+    dict_learning_id_all = read_json()
     result = []
     for x, y in dict_v.items():
         msg_id = x
@@ -116,7 +119,7 @@ def prepare_video_info(dict_v, list_r):
         message_details = y[5]
         replied_message_details = y[6]
         replied_id = y[0]
-        text_from_learning = get_text(dict_learning_id, replied_id)
+        text_from_learning = get_text(dict_learning_id_all, replied_id)
         try:
             from_name = y[7]
         except:
