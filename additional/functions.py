@@ -4,6 +4,9 @@ from os import listdir
 
 def correct_post_title(post_title):
     first_step = post_title.split(' | ')
+    # first_step_2 = []
+    # for i in first_step:
+    #     first_step_2.append(i.replace(' ', ''))
     second_step = first_step[-1].split('#')
     third_step = second_step[0]
     first_step[-1] = third_step
