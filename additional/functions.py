@@ -3,15 +3,23 @@ from os import listdir
 
 
 def correct_post_title(post_title):
-    first_step = post_title.split(' | ')
-    # first_step_2 = []
-    # for i in first_step:
-    #     first_step_2.append(i.replace(' ', ''))
-    second_step = first_step[-1].split('#')
-    third_step = second_step[0]
-    first_step[-1] = third_step
-    first_step.reverse()
-    return first_step
+    first_step = post_title.split('|')
+    first_step_2 = []
+    if len(first_step) != 1:
+        for i in first_step:
+            var = i.strip()
+            first_step_2.append(var)
+        second_step = first_step_2[-1].split('#')
+        third_step = second_step[0]
+        first_step_2[-1] = third_step
+        first_step_2.reverse()
+        return first_step_2
+    else:
+        second_step = first_step[-1].split('#')
+        third_step = second_step[0]
+        first_step[-1] = third_step
+        first_step.reverse()
+        return first_step
 
 
 def correct_video_title(video_path, post_title):

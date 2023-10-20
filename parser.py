@@ -219,13 +219,14 @@ def get_video_info(html):
     return dict_video_info
 
 
-fname = fr"C:\Users\Administrator\Documents\GitHub\python_beautifulsoup4_Parser\all_mhtml_files\messages1.html"
+fname = fr"Z:\SmartTech Learning Group\2023\9-24\messages3.html"
 main_html = get_html(fname)  #  Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
 result = get_info(main_html)  #  Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
 save_json(result)  #  На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
 prepare_info = prepare_group_info(result)  #  Здесь происходит первичная обработка данных
 dict_reply = get_from_name_joined(result)  #  Здесь мы получаем словарь с replied_id и from_name
-ready_information = get_from_name(prepare_info, dict_reply)  #  Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
+print(dict_reply)
+ready_information = get_from_name(prepare_info, dict_reply) #  Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
 video_dict = get_video_info(main_html)
 result_2 = prepare_video_info(video_dict, result)
 

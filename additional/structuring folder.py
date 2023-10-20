@@ -16,7 +16,7 @@ def read_mysql():
     # for i in myresult[100:150]:
     #     print(i)
     # return myresult[1:100]
-    return myresult[1:100]
+    return myresult[4521:4580]
 
 
 def create_dirs(list_of_data):
@@ -45,7 +45,7 @@ Video_duration: {video_duration}''')
 Video_duration: {video_duration}''')
                 except:
                     pass
-                print(actual_path_dir + '== Succes_1!')
+                print(actual_path_dir + '___Succes_1!')
         else:
             actual_path = 'D:\\108\\Test\\'  # There should be path of directory where you want to save all videos
             file_location = correct_file_location(video_path, data_title)
@@ -59,13 +59,12 @@ Video_duration: {video_duration}''')
                     try:
                         file.write(f'''Description: {description}
 Video_duration: {video_duration}''')
-
                     except:
                         file.write(f'''Description: None
 Video_duration: {video_duration}''')
             except:
                 pass
-            print(actual_path + '== Succes_2!')
+            print(actual_path + '___Succes_2!')
 
 
 data = read_mysql()

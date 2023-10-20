@@ -81,6 +81,45 @@ def save_mysql_video(list_v):
         print(mycursor.rowcount, "record inserted.")
 
 
+def get_info_from_db():
+    mydb = mysql.connector.connect(
+        host="192.168.100.100",
+        user="timurparser",
+        password="timurparser",
+        database="timurparser")
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT from_name, message_id, replied_message_id FROM hr_tg_group_content WHERE joined = 0;")
+    myresult = mycursor.fetchall()
+    return myresult
+
+
+def get_info_from_db_2():
+    mydb = mysql.connector.connect(
+        host="192.168.100.100",
+        user="timurparser",
+        password="timurparser",
+        database="timurparser")
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT message_id FROM hr_tg_channel_video_content WHERE from_name IS NULL;")
+    myresult = mycursor.fetchall()
+    return myresult
+
+
+def update_db(dict_info):
+    mydb = mysql.connector.connect(
+        host="192.168.100.100",
+        user="timurparser",
+        password="timurparser",
+        database="timurparser")
+    mycursor = mydb.cursor()
+    for x, y in dict_info.items():
+        sql = "UPDATE hr_tg_channel_video_content SET from_name = %s  WHERE message_id = %s"
+        val = (y, x)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print(mycursor.rowcount, "record(s) affected")
+
+
 # def creating_mysql_group():
 #     mydb = mysql.connector.connect(
 #         host="localhost",

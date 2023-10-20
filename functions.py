@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import json
+from save_to_db import get_info_from_db, get_info_from_db_2, update_db
 
 
 # Здесь происходит первый парсинг через библиотеку BeautifulSoup
@@ -16,13 +17,13 @@ def save_json(list):
     dict_learning_content = list[1]
     dict_all_content = list[2]
     dict_learning_id_2 = list[3]
-    with open('json_files/dict_learning_id.json', 'w', encoding='UTF-8') as file:
+    with open('dict_learning_id.json', 'w', encoding='UTF-8') as file:
         json.dump(dict_learning_id, file, indent=4)
-    with open('json_files/dict_learning_content.json', 'w', encoding='UTF-8') as file1:
+    with open('dict_learning_content.json', 'w', encoding='UTF-8') as file1:
         json.dump(dict_learning_content, file1, indent=4)
-    with open('json_files/dict_all_content.json', 'w', encoding='UTF-8') as file2:
+    with open('dict_all_content.json', 'w', encoding='UTF-8') as file2:
         json.dump(dict_all_content, file2, indent=4)
-    with open('json_files/dict_learning_id_2.json', 'w', encoding='UTF-8') as file3:
+    with open('dict_learning_id_2.json', 'w', encoding='UTF-8') as file3:
         json.dump(dict_learning_id_2, file3, indent=4)
     return 'Done✅'
 
@@ -33,7 +34,7 @@ def save_json(list):
 
 
 def read_json():
-    with open('json_files/dict_learning_id_all.json', 'r', encoding='UTF-8') as file:
+    with open('dict_learning_id_all.json', 'r', encoding='UTF-8') as file:
         dict_r = json.loads(file.read())
         return dict_r
 
@@ -129,9 +130,62 @@ def prepare_video_info(dict_v, list_r):
     return result
 
 
+def prepare_name_info(dict_info, list_name):
+    result_dict = {}
+    for i, k in dict_info.items():
+        from_name = k[-1]
+        for t in list_name:
+            if t in k:
+                result_dict[t] = from_name
+    return result_dict
 
 
+def correct_info(list):
+    result = []
+    for i in list:
+        result.append(i[0])
+    return result
 
+
+def correct_info_id(list_i):
+    result = []
+    for i in list_i:
+        result.append(i[1])
+    return result
+
+
+def correct_info_name(list_n):
+    result_name = []
+    for i in list_n:
+        result_name.append(i[0])
+    return result_name
+
+
+def get_from_name_for_video(list_of_msg_id, list_of_name):
+    dict_result = {}
+    for i in list_of_msg_id:
+        index = list_of_msg_id.index(i)
+        try:
+            difference = list_of_msg_id[index + 1] - list_of_msg_id[index]
+            dict_result[i] = [k for k in range(i, i+difference)]
+            dict_result[i].append(list_of_name[index])
+        except:
+            dict_result[i] = [i]
+            dict_result[i].append(list_of_name[index])
+    return dict_result
+
+
+# list_of_msg_id = get_info_from_db()
+# list_of_name = correct_info(get_info_from_db_2())
+# correct_list_id = correct_info_id(list_of_msg_id)
+# correct_list_name = correct_info_name(list_of_msg_id)
+# dict_id = get_from_name_for_video(correct_list_id, correct_list_name)
+# result = prepare_name_info(dict_id, list_of_name)
+
+
+#update_db(result)
+# example_list = [12, 15, 16, 18, 25, 29, 30, 35]
+# get_from_name_for_video(example_list) 14424
 
 
 
