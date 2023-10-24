@@ -2,14 +2,17 @@ import os
 import shutil
 import mysql.connector
 from additional.functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_video_duration
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+path, host, user, db, passw = os.getenv('actual_path'), os.getenv('host'), os.getenv('user'),os.getenv('database'), os.getenv('password') #gain values from .env
 
 def read_mysql():
     mydb = mysql.connector.connect(
-        host="192.168.100.100",
-        user="timurparser",
-        password="timurparser",
-        database="timurparser")
+        host=host,
+        user=user,
+        password=passw,
+        database=db)
     mycursor = mydb.cursor()
     mycursor.execute("SELECT text_from_learning, video_path, description, video_duration, data_title FROM hr_tg_channel_video_content")
     myresult = mycursor.fetchall()
@@ -28,7 +31,7 @@ def create_dirs(list_of_data):
         data_title = correct_data_title(item[4])
         video_title = correct_video_title(video_path, post_title)
         if len(post_title) == 1:
-            actual_path = 'D:\\108\\Test\\'  # There should be path of directory where you want to save all videos
+            actual_path = path  # There should be path of directory where you want to save all videos
             for i in post_title:
                 actual_path_dir = actual_path + i + "\\"
                 if not os.path.exists(actual_path_dir):
@@ -47,7 +50,7 @@ Video_duration: {video_duration}''')
                     pass
                 print(actual_path_dir + '___Succes_1!')
         else:
-            actual_path = 'D:\\108\\Test\\'  # There should be path of directory where you want to save all videos
+            actual_path = path  # There should be path of directory where you want to save all videos
             file_location = correct_file_location(video_path, data_title)
             for i in post_title:
                 actual_path = actual_path + i + "\\"
