@@ -1,0 +1,6 @@
+#create rename this file to .env and fill the viriables
+actual_path = #your path
+host=#host
+user=#user
+password=#password
+database=#database
