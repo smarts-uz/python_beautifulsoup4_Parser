@@ -1,9 +1,13 @@
-from functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, prepare_video_info
-from save_to_db import save_mysql_channel, save_mysql_group, save_mysql_video
-
+from functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, prepare_video_info, save_test
+from save_to_db import save_mysql_channel, save_mysql_group
+import logging
 
 # В данную переменную необходимо вставить путь к mhtml-файлу, который вы хотите спарсить
 # Attention !!! mhtml-файлы должны быть взяты исключительно из \\192.168.100.100\SmartTech Learning Group
+
+# for i in range(1, 10):
+#     fname = f"D:\python\parser_2\parser\mhtlm_files\messages{i}.html"
+
 
 
 # В данной функции происходит вся магия)
@@ -219,18 +223,40 @@ def get_video_info(html):
     return dict_video_info
 
 
-fname = fr"Z:\SmartTech Learning Group\2023\9-24\messages3.html"
-main_html = get_html(fname)  #  Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
-result = get_info(main_html)  #  Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
-save_json(result)  #  На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
-prepare_info = prepare_group_info(result)  #  Здесь происходит первичная обработка данных
-dict_reply = get_from_name_joined(result)  #  Здесь мы получаем словарь с replied_id и from_name
-print(dict_reply)
-ready_information = get_from_name(prepare_info, dict_reply) #  Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
-video_dict = get_video_info(main_html)
-result_2 = prepare_video_info(video_dict, result)
+
+logger2 = logging.getLogger(__name__)
+logger2.setLevel(logging.INFO)
+
+# настройка обработчика и форматировщика для logger2
+handler2 = logging.FileHandler(f"{__name__}.log", mode='a')
+formatter2 = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
+
+# добавление форматировщика к обработчику
+handler2.setFormatter(formatter2)
+# добавление обработчика к логгеру
+logger2.addHandler(handler2)
+
+logger2.info(f"Running module {__name__}...") # __main__.log
+
+try:
+    all = []
+    for k in range(86, 102):
+        fname = fr"D:\workz)\parzer\python_beautifulsoup4_Parser-main\all_mhtml_files\messages{k}.html"
+        main_html = get_html(fname)  # Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
+        result = get_info(main_html)  # Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
+        all.append(result[0])
+        save_json(result)  # На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
+        prepare_info = prepare_group_info(result)  # Здесь происходит первичная обработка данных
+        dict_reply = get_from_name_joined(result)  # Здесь мы получаем словарь с replied_id и from_name
+        ready_information = get_from_name(prepare_info, dict_reply)  # Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
+        video_dict = get_video_info(main_html)
+        result_2 = prepare_video_info(video_dict, result)
+    save_test(all)
+    logger2.info("Successful run")
+except (RuntimeError, TypeError, NameError,SyntaxError,Exception,ValueError, KeyboardInterrupt,ExceptionGroup)  as err:
+    logger2.exception("Some kind of error, check log file")
 
 
-# save_mysql_video(result_2)
-# save_mysql_group(ready_information)
-# save_mysql_channel(result)  # Эта функция для сохранения в базу-данных информации для Learning channel
+
+#save_mysql_group(ready_information)
+#save_mysql_channel(result) # Эта функция для сохранения в базу-данных информации для Learning channel
