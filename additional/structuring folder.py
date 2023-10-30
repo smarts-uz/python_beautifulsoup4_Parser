@@ -3,6 +3,7 @@ import shutil
 import mysql.connector
 from additional.functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_video_duration
 import os
+import logging
 from dotenv import load_dotenv
 load_dotenv()
 path, host, user, db, passw = os.getenv('actual_path'), os.getenv('host'), os.getenv('user'),os.getenv('database'), os.getenv('password') #gain values from .env
@@ -69,8 +70,24 @@ Video_duration: {video_duration}''')
                 pass
             print(actual_path + '___Succes_2!')
 
+logger2 = logging.getLogger(__name__)
+logger2.setLevel(logging.INFO)
 
-data = read_mysql()
-create_dirs(data)
+# настройка обработчика и форматировщика для logger2
+handler2 = logging.FileHandler(f"{__name__}.log", mode='a')
+formatter2 = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
 
+# добавление форматировщика к обработчику
+handler2.setFormatter(formatter2)
+# добавление обработчика к логгеру
+logger2.addHandler(handler2)
+
+logger2.info(f"Running module {__name__}...") # __main__.log
+
+try:
+    data = read_mysql()
+    create_dirs(data)
+    logger2.info("Successful run")
+except (RuntimeError, TypeError, NameError,SyntaxError,Exception,ValueError, KeyboardInterrupt,ExceptionGroup) as err:
+    logger2.exception("Some kind of error, check log file")
 

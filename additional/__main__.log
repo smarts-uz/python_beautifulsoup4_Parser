@@ -1,0 +1,20 @@
+__main__ 2023-10-30 11:06:23,038 INFO Running module __main__...
+__main__ 2023-10-30 11:06:23,041 ERROR Some kind of error, check log file
+Traceback (most recent call last):
+  File "D:\workz)\parzer\python_beautifulsoup4_Parser-main\additional\structuring folder.py", line 64, in <module>
+    folder_structure(post_title, actual_path)
+  File "D:\workz)\parzer\python_beautifulsoup4_Parser-main\additional\structuring folder.py", line 25, in folder_structure
+    shutil.copyfile(file_location+k, actual_path)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\shutil.py", line 258, in copyfile
+    with open(dst, 'wb') as fdst:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\test\\17\\ Flutter\\ Form Builders \\ @ Bads \\form_builder_chips_input \\'
+__main__ 2023-10-30 11:13:02,906 INFO Running module __main__...
+__main__ 2023-10-30 11:13:04,119 ERROR Some kind of error, check log file
+Traceback (most recent call last):
+  File "D:\workz)\parzer\python_beautifulsoup4_Parser-main\additional\structuring folder.py", line 89, in <module>
+    create_dirs(data)
+  File "D:\workz)\parzer\python_beautifulsoup4_Parser-main\additional\structuring folder.py", line 57, in create_dirs
+    actual_path = actual_path + i + "\\"
+                  ~~~~~~~~~~~~^~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
