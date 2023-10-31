@@ -38,6 +38,7 @@ def correct_data_title(data_title):
     return year
 
 
+
 def correct_file_location(video_path, data_title):
     base_dir = r"\\" + "192.168.100.100\SmartTech Learning Group\\"
     file_directory = base_dir + data_title
@@ -52,6 +53,42 @@ def correct_file_location(video_path, data_title):
 def correct_video_duration(video_duration):
     result = '-'.join(video_duration.split(':'))
     return result
+
+
+# https://www.youtube.com/watch?v=1Q6pw9gPDp0
+# https://stackoverflow.com/questions/41116013/selenium-code-to-scroll-horizontally-in-a-web-element-which-is-loading-lazily
+# https://koofr.eu/
+def correct_url_name(url):
+    first_step = url.split('https://')
+    second_step = first_step[1].split('/')
+    last_step = second_step[-1]
+    if last_step == '':
+        if len(second_step[-2]) < 100:
+            return second_step[-2]
+        else:
+            return second_step[-2][:30]
+    else:
+        if len(last_step) < 100:
+            return last_step
+        else:
+            return last_step[:30]
+
+
+
+# path = "where to save url file"
+# url = extract_urls_from_mhtml(file_path)
+# encoding="""
+# [{000214A0-0000-0000-C000-000000000046}]
+# Prop3=19,11
+# [InternetShortcut]
+# IDList=
+# URL="""+url+"""
+# IconIndex=13
+# HotKey=0
+# IconFile=C:\Windows\System32\SHELL32.dll
+# """
+# with open(path+'tes.url','w') as file:
+#     file.write(encoding)
 
 
 #  \\192.168.100.100\SmartTech Learning Group\2023\9-8\video_files\«Account» folder of Services.mp4 True
