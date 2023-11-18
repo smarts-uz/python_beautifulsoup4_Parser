@@ -1,19 +1,22 @@
-from datetime import datetime
-list = ['2021-9-12', '2021-9-11', '2021-3', '2021-11-1', '2021-11-3', '2021-12-4', '2021-9-6', '2021-10-6']
+import datetime
 
-def del_character(some_list):
-    new_list = []
-    for i in some_list:
-        if '-' in i:
-            new_list.append(i.replace('-', ''))
-    return new_list
+datetime_strings = ["2023-10-18 10:30:00","2023-11-18 10:30:00", "2023-11-08 7:30:00", "2023-11-17 10:30:00", "2023-11-17 13:30:00", "2023-11-18 10:30:00"]
 
-def sort_by_int(some_list):
-    return some_list.sort(key=int)
+datetime_strings.sort(key=lambda date: datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S"))
 
-try:
-    sorted_list = sorted(list, key=lambda t: datetime.strptime(t, '%Y-%m-%d'))
-except:
-    sorted_list = sorted(list, key=lambda t: datetime.strptime(t, '%Y-%m'))
+# Group into sublists by day
+groups = []
+day = None
+day_list = []
+for date in datetime_strings:
+    current = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S").date()
+    if day != current:
+        if day_list:
+            groups.append(day_list)
+        day_list = [date]
+        day = current
+    else:
+        day_list.append(date)
+groups.append(day_list)
 
-print(sorted_list)
+print(groups)
