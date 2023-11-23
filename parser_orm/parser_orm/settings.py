@@ -117,6 +117,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#creating folders
+year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
+module_name = os.path.splitext(os.path.basename(__file__))[0]
+logger_path = f"logs/{year}/{month}/{day}/"
+if not os.path.exists(logger_path):
+    os.makedirs(logger_path)
+
+#setting logger
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": f"{logger_path}/info.log",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
